@@ -10,131 +10,125 @@ namespace Proyecto_algoritmos_voraces
     {
         static void Main(string[] args)
         {
-            try
+            //---creando variables para almacenar los nombres de los archivos
+            string archivoOriginal = "Bioinformatica.txt";
+            string archivoComprimido = "Bioinformatica.bin";
+            string archivoRecuperado = "Bioinformatica_recuperado.txt";
+
+            //---crear objeto compresor
+            CDesComPresor compresor = new CDesComPresor();
+
+            //---variable para almacenar las estadísticas de compresión
+            CEstadisticasCompresion estadisticas = null;
+
+            //---variable para controlar el menú
+            int opcion;
+
+            do
             {
+                //---imprimiendo título principal
                 Console.WriteLine("=================================");
-                Console.WriteLine(" COMPRESOR HUFFMAN");
-                Console.WriteLine("=================================\n");
+                Console.WriteLine("      COMPRESOR HUFFMAN");
+                Console.WriteLine("=================================");
 
-                string archivoOriginal =
-                    "Bioinformatica.txt";
+                //---mostrando opciones del menú
+                Console.WriteLine();
+                Console.WriteLine("1. Comprimir archivo");
+                Console.WriteLine("2. Descomprimir archivo");
+                Console.WriteLine("3. Mostrar estadísticas");
+                Console.WriteLine("4. Mostrar tabla Huffman");
+                Console.WriteLine("0. Salir");
+                Console.WriteLine();
 
-                string archivoComprimido =
-                    "Bioinformatica.bin";
+                //---solicitar opción al usuario
+                Console.Write("Seleccione una opción: ");
+                opcion = Convert.ToInt32(Console.ReadLine());
 
-                string archivoRecuperado =
-                    "Bioinformatica_recuperado.txt";
+                Console.WriteLine();
 
-                CDesComPresor compresor =
-                    new CDesComPresor();
-
-                Console.WriteLine(
-                    "Comprimiendo archivo..."
-                );
-
-                CEstadisticasCompresion estadisticas =
-                    compresor.ComprimirArchivo(
-                        archivoOriginal,
-                        archivoComprimido
-                    );
-
-                Console.WriteLine(
-                    "\nCOMPRESIÓN COMPLETADA"
-                );
-
-                Console.WriteLine(
-                    "Tamaño original: "
-                    + estadisticas.GetTamanoOriginalBytes()
-                    + " bytes"
-                );
-
-                Console.WriteLine(
-                    "Tamaño comprimido: "
-                    + estadisticas.GetTamanoComprimidoBytes()
-                    + " bytes"
-                );
-
-                Console.WriteLine(
-                    "Caracteres procesados: "
-                    + estadisticas.GetTotalCaracteres()
-                );
-
-                Console.WriteLine(
-                    "Bits comprimidos: "
-                    + estadisticas.GetTotalBitsComprimidos()
-                );
-
-                Console.WriteLine(
-                    "Reducción: "
-                    + estadisticas
-                        .GetPorcentajeReduccion()
-                        .ToString("F2")
-                    + "%"
-                );
-
-                Console.WriteLine(
-                    "\nTABLA DE CÓDIGOS HUFFMAN"
-                );
-
-                foreach (
-                    KeyValuePair<char, string> par
-                    in estadisticas.GetTablaCodigos()
-                )
+                try
                 {
-                    Console.WriteLine(
-                        "'" + par.Key + "' -> "
-                        + par.Value
-                    );
+                    switch (opcion)
+                    {
+                        case 1:
+
+                            //---comprimir archivo y guardar estadísticas
+                            estadisticas = compresor.ComprimirArchivo(archivoOriginal, archivoComprimido);
+
+                            //---mensaje de éxito
+                            Console.WriteLine("Archivo comprimido correctamente.");
+
+                            break;
+
+                        case 2:
+
+                            //---descomprimir archivo
+                            compresor.DescomprimirArchivo(archivoComprimido, archivoRecuperado);
+
+                            //---mensaje de éxito
+                            Console.WriteLine("Archivo descomprimido correctamente.");
+
+                            break;
+
+                        case 3:
+
+                            //---verificar si existe una compresión previa
+                            if (estadisticas == null)
+                            {
+                                Console.WriteLine("Primero debe comprimir un archivo.");
+                                break;
+                            }
+
+                            //---mostrar estadísticas
+                            Console.WriteLine("Tamaño original: " + estadisticas.GetTamanoOriginalBytes() + " bytes");
+                            Console.WriteLine("Tamaño comprimido: " + estadisticas.GetTamanoComprimidoBytes() + " bytes");
+                            Console.WriteLine("Caracteres procesados: " + estadisticas.GetTotalCaracteres());
+                            Console.WriteLine("Bits comprimidos: " + estadisticas.GetTotalBitsComprimidos());
+                            Console.WriteLine("Reducción: " + estadisticas.GetPorcentajeReduccion().ToString("F2") + "%");
+
+                            break;
+
+                        case 4:
+
+                            //---verificar si existe una compresión previa
+                            if (estadisticas == null)
+                            {
+                                Console.WriteLine("Primero debe comprimir un archivo.");
+                                break;
+                            }
+
+                            //---imprimir tabla Huffman
+                            Console.WriteLine("TABLA DE CÓDIGOS HUFFMAN");
+                            Console.WriteLine();
+
+                            foreach (KeyValuePair<char, string> par in estadisticas.GetTablaCodigos())
+                            {
+                                Console.WriteLine("'" + par.Key + "' -> " + par.Value);
+                            }
+
+                            break;
+
+                        case 0:
+
+                            //---mensaje de salida
+                            Console.WriteLine("Fin del programa.");
+
+                            break;
+
+                        default:
+
+                            //---opción incorrecta
+                            Console.WriteLine("Opción inválida.");
+
+                            break;
+                    }
                 }
-
-                Console.WriteLine(
-                    "\nDescomprimiendo archivo..."
-                );
-
-                compresor.DescomprimirArchivo(
-                    archivoComprimido,
-                    archivoRecuperado
-                );
-
-                Console.WriteLine(
-                    "DESCOMPRESIÓN COMPLETADA"
-                );
-
-                Console.WriteLine(
-                    "\nArchivo original : "
-                    + archivoOriginal
-                );
-
-                Console.WriteLine(
-                    "Archivo comprimido : "
-                    + archivoComprimido
-                );
-
-                Console.WriteLine(
-                    "Archivo recuperado : "
-                    + archivoRecuperado
-                );
-
-                Console.WriteLine(
-                    "\nProceso finalizado correctamente."
-                );
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(
-                    "\nERROR:"
-                );
-
-                Console.WriteLine(
-                    ex.Message
-                );
-            }
-
-            Console.WriteLine(
-                "\nPresione una tecla para salir..."
-            );
-
-            Console.ReadKey();
+                catch (Exception ex)
+                {
+                    //---mostrar mensaje de error
+                    Console.WriteLine("ERROR: " + ex.Message);
+                }
+            } while (opcion != 0);
         }
     }
-}
+}   
