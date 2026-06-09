@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto algoritmos voraces", "Proyecto algoritmos voraces.csproj", "{A6544E14-2A3A-46B3-94BE-7436E923A237}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6544E14-2A3A-46B3-94BE-7436E923A237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6544E14-2A3A-46B3-94BE-7436E923A237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6544E14-2A3A-46B3-94BE-7436E923A237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6544E14-2A3A-46B3-94BE-7436E923A237}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56B10877-0B31-4091-8434-8F36112C2385}
+	EndGlobalSection
+EndGlobal
