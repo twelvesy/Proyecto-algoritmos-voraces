@@ -10,11 +10,6 @@ namespace Proyecto_algoritmos_voraces
     {
         static void Main(string[] args)
         {
-            //---creando variables para almacenar los nombres de los archivos
-            string archivoOriginal = "Bioinformatica.txt";
-            string archivoComprimido = "Bioinformatica.bin";
-            string archivoRecuperado = "Bioinformatica_recuperado.txt";
-
             //---crear objeto compresor
             CDesComPresor compresor = new CDesComPresor();
 
@@ -52,20 +47,38 @@ namespace Proyecto_algoritmos_voraces
                     {
                         case 1:
 
+                            //---solicitar archivo de entrada
+                            Console.Write("Ingrese el nombre del archivo a comprimir: ");
+                            string archivoOriginal = Console.ReadLine();
+
+                            //---solicitar archivo comprimido de salida
+                            Console.Write("Ingrese el nombre del archivo comprimido (.bin): ");
+                            string archivoComprimido = Console.ReadLine();
+
                             //---comprimir archivo y guardar estadísticas
                             estadisticas = compresor.ComprimirArchivo(archivoOriginal, archivoComprimido);
 
                             //---mensaje de éxito
+                            Console.WriteLine();
                             Console.WriteLine("Archivo comprimido correctamente.");
 
                             break;
 
                         case 2:
 
+                            //---solicitar archivo comprimido
+                            Console.Write("Ingrese el archivo comprimido (.bin): ");
+                            string archivoBin = Console.ReadLine();
+
+                            //---solicitar archivo recuperado
+                            Console.Write("Ingrese el nombre del archivo recuperado (.txt): ");
+                            string archivoRecuperado = Console.ReadLine();
+
                             //---descomprimir archivo
-                            compresor.DescomprimirArchivo(archivoComprimido, archivoRecuperado);
+                            compresor.DescomprimirArchivo(archivoBin, archivoRecuperado);
 
                             //---mensaje de éxito
+                            Console.WriteLine();
                             Console.WriteLine("Archivo descomprimido correctamente.");
 
                             break;
@@ -128,6 +141,7 @@ namespace Proyecto_algoritmos_voraces
                     //---mostrar mensaje de error
                     Console.WriteLine("ERROR: " + ex.Message);
                 }
+
             } while (opcion != 0);
         }
     }
