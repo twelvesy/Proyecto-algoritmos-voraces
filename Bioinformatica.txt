@@ -1,35 +1,35 @@
-BIOINFORMÁTICA
+ï»¿BIOINFORMï¿½TICA
 
-La bioinformática es una disciplina interdisciplinaria que combina conocimientos de biología, informática, matemáticas y estadística para analizar grandes cantidades de datos biológicos. Su desarrollo ha sido fundamental para el avance de la genómica, la proteómica y otras áreas relacionadas con las ciencias de la vida.
+La bioinformï¿½tica es una disciplina interdisciplinaria que combina conocimientos de biologï¿½a, informï¿½tica, matemï¿½ticas y estadï¿½stica para analizar grandes cantidades de datos biolï¿½gicos. Su desarrollo ha sido fundamental para el avance de la genï¿½mica, la proteï¿½mica y otras ï¿½reas relacionadas con las ciencias de la vida.
 
-Uno de los principales objetivos de la bioinformática es almacenar, organizar y procesar información biológica de manera eficiente. Entre los datos más estudiados se encuentran las secuencias de ADN, ARN y proteínas. Estas secuencias contienen información genética que permite comprender el funcionamiento de los organismos vivos.
+Uno de los principales objetivos de la bioinformï¿½tica es almacenar, organizar y procesar informaciï¿½n biolï¿½gica de manera eficiente. Entre los datos mï¿½s estudiados se encuentran las secuencias de ADN, ARN y proteï¿½nas. Estas secuencias contienen informaciï¿½n genï¿½tica que permite comprender el funcionamiento de los organismos vivos.
 
-El ADN está formado por cuatro bases nitrogenadas: adenina (A), timina (T), citosina (C) y guanina (G). La secuencia específica de estas bases determina las características genéticas de un organismo. Los bioinformáticos desarrollan algoritmos para comparar secuencias, identificar mutaciones y encontrar regiones conservadas entre diferentes especies.
+El ADN estï¿½ formado por cuatro bases nitrogenadas: adenina (A), timina (T), citosina (C) y guanina (G). La secuencia especï¿½fica de estas bases determina las caracterï¿½sticas genï¿½ticas de un organismo. Los bioinformï¿½ticos desarrollan algoritmos para comparar secuencias, identificar mutaciones y encontrar regiones conservadas entre diferentes especies.
 
-El Proyecto Genoma Humano representó uno de los hitos más importantes de la bioinformática moderna. Gracias a la colaboración internacional y al uso de herramientas computacionales avanzadas, fue posible secuenciar y analizar miles de millones de pares de bases del genoma humano.
+El Proyecto Genoma Humano representï¿½ uno de los hitos mï¿½s importantes de la bioinformï¿½tica moderna. Gracias a la colaboraciï¿½n internacional y al uso de herramientas computacionales avanzadas, fue posible secuenciar y analizar miles de millones de pares de bases del genoma humano.
 
-Las bases de datos biológicas desempeñan un papel fundamental en esta disciplina. Algunas almacenan secuencias genéticas, mientras que otras contienen información sobre estructuras de proteínas, funciones celulares o relaciones evolutivas. El acceso rápido a estas bases de datos permite a los investigadores realizar estudios complejos en menor tiempo.
+Las bases de datos biolï¿½gicas desempeï¿½an un papel fundamental en esta disciplina. Algunas almacenan secuencias genï¿½ticas, mientras que otras contienen informaciï¿½n sobre estructuras de proteï¿½nas, funciones celulares o relaciones evolutivas. El acceso rï¿½pido a estas bases de datos permite a los investigadores realizar estudios complejos en menor tiempo.
 
-La alineación de secuencias es una de las tareas más comunes en bioinformática. Consiste en comparar dos o más secuencias para identificar similitudes y diferencias. Herramientas como BLAST permiten buscar regiones homólogas entre secuencias y son ampliamente utilizadas en laboratorios de investigación.
+La alineaciï¿½n de secuencias es una de las tareas mï¿½s comunes en bioinformï¿½tica. Consiste en comparar dos o mï¿½s secuencias para identificar similitudes y diferencias. Herramientas como BLAST permiten buscar regiones homï¿½logas entre secuencias y son ampliamente utilizadas en laboratorios de investigaciï¿½n.
 
-Otro campo importante es la filogenia computacional, que utiliza métodos matemáticos para reconstruir las relaciones evolutivas entre organismos. A partir de secuencias genéticas, es posible construir árboles filogenéticos que muestran cómo diferentes especies comparten ancestros comunes.
+Otro campo importante es la filogenia computacional, que utiliza mï¿½todos matemï¿½ticos para reconstruir las relaciones evolutivas entre organismos. A partir de secuencias genï¿½ticas, es posible construir ï¿½rboles filogenï¿½ticos que muestran cï¿½mo diferentes especies comparten ancestros comunes.
 
-La bioinformática también tiene aplicaciones en medicina personalizada. Mediante el análisis del genoma de un paciente, los especialistas pueden identificar variantes genéticas asociadas a enfermedades o respuestas específicas a determinados tratamientos. Esto permite diseñar terapias más precisas y efectivas.
+La bioinformï¿½tica tambiï¿½n tiene aplicaciones en medicina personalizada. Mediante el anï¿½lisis del genoma de un paciente, los especialistas pueden identificar variantes genï¿½ticas asociadas a enfermedades o respuestas especï¿½ficas a determinados tratamientos. Esto permite diseï¿½ar terapias mï¿½s precisas y efectivas.
 
-El aprendizaje automático y la inteligencia artificial han adquirido una gran relevancia en bioinformática durante los últimos años. Estas técnicas permiten analizar enormes volúmenes de datos biológicos y descubrir patrones que serían difíciles de detectar mediante métodos tradicionales.
+El aprendizaje automï¿½tico y la inteligencia artificial han adquirido una gran relevancia en bioinformï¿½tica durante los ï¿½ltimos aï¿½os. Estas tï¿½cnicas permiten analizar enormes volï¿½menes de datos biolï¿½gicos y descubrir patrones que serï¿½an difï¿½ciles de detectar mediante mï¿½todos tradicionales.
 
-Entre las aplicaciones más destacadas de la bioinformática se encuentran:
-- Análisis de secuencias de ADN.
-- Predicción de estructuras de proteínas.
-- Identificación de genes.
-- Estudio de enfermedades genéticas.
-- Diseño de fármacos.
+Entre las aplicaciones mï¿½s destacadas de la bioinformï¿½tica se encuentran:
+- Anï¿½lisis de secuencias de ADN.
+- Predicciï¿½n de estructuras de proteï¿½nas.
+- Identificaciï¿½n de genes.
+- Estudio de enfermedades genï¿½ticas.
+- Diseï¿½o de fï¿½rmacos.
 - Medicina personalizada.
-- Evolución molecular.
-- Metagenómica.
-- Biología de sistemas.
+- Evoluciï¿½n molecular.
+- Metagenï¿½mica.
+- Biologï¿½a de sistemas.
 
-El crecimiento continuo de los datos biológicos plantea nuevos desafíos computacionales. Los investigadores necesitan algoritmos más rápidos, estructuras de datos más eficientes y sistemas capaces de procesar información a gran escala. Por esta razón, la bioinformática seguirá siendo una de las áreas más importantes de la investigación científica y tecnológica durante las próximas décadas.
+El crecimiento continuo de los datos biolï¿½gicos plantea nuevos desafï¿½os computacionales. Los investigadores necesitan algoritmos mï¿½s rï¿½pidos, estructuras de datos mï¿½s eficientes y sistemas capaces de procesar informaciï¿½n a gran escala. Por esta razï¿½n, la bioinformï¿½tica seguirï¿½ siendo una de las ï¿½reas mï¿½s importantes de la investigaciï¿½n cientï¿½fica y tecnolï¿½gica durante las prï¿½ximas dï¿½cadas.
 
 Secuencia de ejemplo:
 ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG
