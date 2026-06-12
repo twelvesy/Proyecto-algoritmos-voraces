@@ -15,7 +15,7 @@ namespace Proyecto_algoritmos_voraces
             //---crear objeto compresor
             CDesComPresor compresor = new CDesComPresor();
 
-            //---variable para almacenar las estadísticas de compresión
+            //---objeto para almacenar las estadísticas de compresión
             CEstadisticasCompresion estadisticas = null;
 
             //---variable para controlar el menú
@@ -54,7 +54,7 @@ namespace Proyecto_algoritmos_voraces
                             string archivoOriginal = Console.ReadLine();
 
                             //---solicitar archivo comprimido de salida
-                            Console.Write("Ingrese el nombre del archivo comprimido (.bin): ");
+                            Console.Write("Ingrese el nombre del archivo comprimido: ");
                             string archivoComprimido = Console.ReadLine();
 
                             //---comprimir archivo y guardar estadísticas
@@ -69,7 +69,7 @@ namespace Proyecto_algoritmos_voraces
                         case 2:
 
                             //---solicitar archivo comprimido
-                            Console.Write("Ingrese el archivo comprimido (.bin): ");
+                            Console.Write("Ingrese el archivo comprimido (.txt): ");
                             string archivoBin = Console.ReadLine();
 
                             //---solicitar archivo recuperado

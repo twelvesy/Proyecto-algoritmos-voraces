@@ -8,396 +8,108 @@ using System.Threading.Tasks;
 namespace Proyecto_algoritmos_voraces
 {
     internal class CDesComPresor
+    //---Define la clase CDesComPresor, responsable de comprimir y descomprimir archivos de texto.
+    //   El archivo comprimido es un .txt con el árbol serializado en la primera línea y la cadena
+    //   de ceros y unos en texto corrido en la segunda línea.
+    //   Las estadísticas simulan el tamaño real que tendría si se empaquetara en binario (.bin).
     {
-        // ==========================
-        // ATRIBUTOS
-        // ==========================
+        //---ATRIBUTOS
+        private CArbolHuffman arbol;    //---árbol de Huffman usado en la compresión
+        private string textoCodificado; //---cadena de bits generada en la última compresión
 
-        private CArbolHuffman arbol;
-
-        // ==========================
-        // CONSTRUCTOR
-        // ==========================
-
+        //---CONSTRUCTOR
+        //---inicializa el compresor con un árbol vacío
         public CDesComPresor()
         {
             arbol = new CArbolHuffman();
+            textoCodificado = "";
         }
 
-        // ==========================
-        // COMPRESIÓN
-        // ==========================
-
-        public CEstadisticasCompresion ComprimirArchivo(
-            string rutaEntrada,
-            string rutaSalida)
+        //---COMPRESIÓN
+        //---construye el árbol, codifica el texto y guarda árbol + bits en un .txt
+        public CEstadisticasCompresion ComprimirArchivo(string rutaEntrada, string rutaSalida)
         {
             if (!File.Exists(rutaEntrada))
-            {
-                throw new FileNotFoundException(
-                    "No se encontró el archivo: "
-                    + rutaEntrada
-                );
-            }
+                throw new FileNotFoundException("No se encontró el archivo: " + rutaEntrada);
 
-            string textoOriginal =
-                File.ReadAllText(
-                    rutaEntrada,
-                    Encoding.UTF8
-                );
+            string textoOriginal = File.ReadAllText(rutaEntrada, Encoding.UTF8);
 
             if (string.IsNullOrEmpty(textoOriginal))
-            {
-                throw new Exception(
-                    "El archivo está vacío."
-                );
-            }
+                throw new Exception("El archivo está vacío.");
 
             arbol.Construir(textoOriginal);
 
-            string textoCodificado =
-                CodificarTexto(
-                    textoOriginal,
-                    arbol.GetCodigos()
-                );
+            textoCodificado = CodificarTexto(textoOriginal, arbol.GetCodigos());
 
-            byte[] bytesComprimidos;
-            int bitsRelleno;
+            //---línea 1: árbol serializado | línea 2: bits en texto corrido
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(arbol.SerializarArbol());
+            sb.Append(textoCodificado);
+            File.WriteAllText(rutaSalida, sb.ToString(), Encoding.UTF8);
 
-            ConvertirBitsABytes(
-                textoCodificado,
-                out bytesComprimidos,
-                out bitsRelleno
-            );
+            //---tamaño simulado: cuántos bytes ocuparía si los bits se empaquetaran en binario
+            long tamanoSimuladoBytes = (textoCodificado.Length + 7) / 8;
 
-            string arbolSerializado =
-                arbol.SerializarArbol();
-
-            EscribirArchivoComprimido(
-                rutaSalida,
-                arbolSerializado,
-                bytesComprimidos,
-                bitsRelleno
-            );
-
-            long tamanoOriginal =
-                new FileInfo(rutaEntrada).Length;
-
-            long tamanoComprimido =
-                new FileInfo(rutaSalida).Length;
-
-            CEstadisticasCompresion estadisticas =
-                new CEstadisticasCompresion();
-
-            estadisticas.SetTamanoOriginalBytes(
-                tamanoOriginal
-            );
-
-            estadisticas.SetTamanoComprimidoBytes(
-                tamanoComprimido
-            );
-
-            estadisticas.SetTotalCaracteres(
-                textoOriginal.Length
-            );
-
-            estadisticas.SetTotalBitsComprimidos(
-                textoCodificado.Length
-            );
-
-            estadisticas.SetTablaCodigos(
-                new Dictionary<char, string>(
-                    arbol.GetCodigos()
-                )
-            );
-
+            CEstadisticasCompresion estadisticas = new CEstadisticasCompresion();
+            estadisticas.SetTamanoOriginalBytes(new FileInfo(rutaEntrada).Length);
+            estadisticas.SetTamanoComprimidoBytes(tamanoSimuladoBytes);
+            estadisticas.SetTotalCaracteres(textoOriginal.Length);
+            estadisticas.SetTotalBitsComprimidos(textoCodificado.Length);
+            estadisticas.SetTablaCodigos(new Dictionary<char, string>(arbol.GetCodigos()));
             return estadisticas;
         }
 
-        // ==========================
-        // DESCOMPRESIÓN
-        // ==========================
-
-        public void DescomprimirArchivo(
-            string rutaEntrada,
-            string rutaSalida)
+        //---DESCOMPRESIÓN
+        //---lee la primera línea como árbol y la segunda como cadena de bits, luego decodifica
+        public void DescomprimirArchivo(string rutaEntrada, string rutaSalida)
         {
             if (!File.Exists(rutaEntrada))
-            {
-                throw new FileNotFoundException(
-                    "No se encontró el archivo: "
-                    + rutaEntrada
-                );
-            }
+                throw new FileNotFoundException("No se encontró el archivo: " + rutaEntrada);
 
-            string arbolSerializado;
-            byte[] bytesComprimidos;
-            int bitsRelleno;
+            string[] lineas = File.ReadAllLines(rutaEntrada, Encoding.UTF8);
 
-            LeerArchivoComprimido(
-                rutaEntrada,
-                out arbolSerializado,
-                out bytesComprimidos,
-                out bitsRelleno
-            );
+            if (lineas.Length < 2)
+                throw new Exception("El archivo comprimido no tiene el formato esperado.");
 
-            CNodo raiz =
-                CArbolHuffman.DeserializarArbol(
-                    arbolSerializado
-                );
+            string arbolSerializado = lineas[0];
+            string bits = lineas[1];
 
-            if (raiz == null)
-            {
-                throw new Exception(
-                    "No se pudo reconstruir el árbol."
-                );
-            }
+            CNodo raiz = CArbolHuffman.DeserializarArbol(arbolSerializado);
+            if (raiz == null) throw new Exception("No se pudo reconstruir el árbol.");
 
-            string bits =
-                ConvertirBytesABits(
-                    bytesComprimidos,
-                    bitsRelleno
-                );
+            string textoRecuperado = DecodificarBits(bits, raiz);
 
-            string textoRecuperado =
-                DecodificarBits(
-                    bits,
-                    raiz
-                );
-
-            File.WriteAllText(
-                rutaSalida,
-                textoRecuperado,
-                Encoding.UTF8
-            );
+            File.WriteAllText(rutaSalida, textoRecuperado, Encoding.UTF8);
         }
 
-        // ==========================
-        // CODIFICAR TEXTO
-        // ==========================
-
-        private string CodificarTexto(
-            string texto,
-            Dictionary<char, string> codigos)
+        //---CODIFICAR TEXTO
+        //---reemplaza cada carácter del texto por su código binario de Huffman
+        private string CodificarTexto(string texto, Dictionary<char, string> codigos)
         {
-            StringBuilder sb =
-                new StringBuilder();
-
-            foreach (char c in texto)
-            {
-                sb.Append(codigos[c]);
-            }
-
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in texto) sb.Append(codigos[c]);
             return sb.ToString();
         }
 
-        // ==========================
-        // BITS -> BYTES
-        // ==========================
-
-        private void ConvertirBitsABytes(
-            string bits,
-            out byte[] bytes,
-            out int bitsRelleno)
+        //---DECODIFICAR
+        //---recorre los bits usando el árbol para recuperar el texto original carácter a carácter
+        private string DecodificarBits(string bits, CNodo raiz)
         {
-            bitsRelleno =
-                (8 - (bits.Length % 8)) % 8;
-
-            string bitsRellenados =
-                bits +
-                new string(
-                    '0',
-                    bitsRelleno
-                );
-
-            int totalBytes =
-                bitsRellenados.Length / 8;
-
-            bytes = new byte[totalBytes];
-
-            for (int i = 0; i < totalBytes; i++)
-            {
-                string grupoBits =
-                    bitsRellenados.Substring(
-                        i * 8,
-                        8
-                    );
-
-                bytes[i] =
-                    Convert.ToByte(
-                        grupoBits,
-                        2
-                    );
-            }
-        }
-
-        // ==========================
-        // BYTES -> BITS
-        // ==========================
-
-        private string ConvertirBytesABits(
-            byte[] bytes,
-            int bitsRelleno)
-        {
-            StringBuilder sb =
-                new StringBuilder();
-
-            foreach (byte b in bytes)
-            {
-                sb.Append(
-                    Convert
-                    .ToString(b, 2)
-                    .PadLeft(8, '0')
-                );
-            }
-
-            string bits =
-                sb.ToString();
-
-            if (
-                bitsRelleno > 0 &&
-                bits.Length >= bitsRelleno
-            )
-            {
-                bits =
-                    bits.Substring(
-                        0,
-                        bits.Length -
-                        bitsRelleno
-                    );
-            }
-
-            return bits;
-        }
-
-        // ==========================
-        // DECODIFICAR
-        // ==========================
-
-        private string DecodificarBits(
-            string bits,
-            CNodo raiz)
-        {
-            StringBuilder texto =
-                new StringBuilder();
-
+            StringBuilder texto = new StringBuilder();
             CNodo nodoActual = raiz;
 
             foreach (char bit in bits)
             {
-                if (bit == '0')
-                {
-                    nodoActual =
-                        nodoActual.GetIzquierda();
-                }
-                else
-                {
-                    nodoActual =
-                        nodoActual.GetDerecha();
-                }
+                nodoActual = (bit == '0') ? nodoActual.GetIzquierda() : nodoActual.GetDerecha();
 
                 if (nodoActual.EsHoja())
                 {
-                    texto.Append(
-                        nodoActual
-                        .GetCaracter()
-                        .Value
-                    );
-
+                    texto.Append(nodoActual.GetCaracter().Value);
                     nodoActual = raiz;
                 }
             }
 
             return texto.ToString();
-        }
-
-        // ==========================
-        // GUARDAR ARCHIVO BINARIO
-        // ==========================
-
-        private void EscribirArchivoComprimido(
-            string ruta,
-            string arbolSerializado,
-            byte[] bytesComprimidos,
-            int bitsRelleno)
-        {
-            using (
-                BinaryWriter writer =
-                new BinaryWriter(
-                    File.Open(
-                        ruta,
-                        FileMode.Create
-                    )
-                )
-            )
-            {
-                byte[] bytesArbol =
-                    Encoding.UTF8.GetBytes(
-                        arbolSerializado
-                    );
-
-                writer.Write(
-                    bytesArbol.Length
-                );
-
-                writer.Write(
-                    bytesArbol
-                );
-
-                writer.Write(
-                    (byte)bitsRelleno
-                );
-
-                writer.Write(
-                    bytesComprimidos
-                );
-            }
-        }
-
-        // ==========================
-        // LEER ARCHIVO BINARIO
-        // ==========================
-
-        private void LeerArchivoComprimido(
-            string ruta,
-            out string arbolSerializado,
-            out byte[] bytesComprimidos,
-            out int bitsRelleno)
-        {
-            using (
-                BinaryReader reader =
-                new BinaryReader(
-                    File.Open(
-                        ruta,
-                        FileMode.Open
-                    )
-                )
-            )
-            {
-                int longitudArbol =
-                    reader.ReadInt32();
-
-                byte[] bytesArbol =
-                    reader.ReadBytes(
-                        longitudArbol
-                    );
-
-                arbolSerializado =
-                    Encoding.UTF8.GetString(
-                        bytesArbol
-                    );
-
-                bitsRelleno =
-                    reader.ReadByte();
-
-                bytesComprimidos =
-                    reader.ReadBytes(
-                        (int)(
-                            reader.BaseStream.Length -
-                            reader.BaseStream.Position
-                        )
-                    );
-            }
         }
     }
 }
